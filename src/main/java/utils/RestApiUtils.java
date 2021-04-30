@@ -3,26 +3,27 @@ package utils;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.junit.Assert;
+import io.restassured.specification.RequestSpecification;
+
+
+import static io.restassured.RestAssured.given;
 
 public class RestApiUtils {
+    private static final String URL =ConfigReader.getProperty ("food_delivery_base_url");
 
-
-    public void requestSpecification(){
-
+    public RequestSpecification requestSpecification(){
+        return given()
+                .accept(ContentType.JSON)
+                .contentType(ContentType.JSON);
     }
 
-    public void addFood(String body){
-        String url = "http://" + ConfigReader.getProperty ("food.delivery.base.url") + ":"
-                + ConfigReader.getProperty ("food.delivery.port.number") +"/food/cache/add";
+    public Response addFood(String body){
 
-        Response response = RestAssured.given ()
-                .baseUri (url)
-                .contentType (ContentType.JSON)//request type
-                .accept (ContentType.JSON)//response type
+        return requestSpecification()
+                .baseUri (URL)
                 .body (body)
                 .when ()
-                .request ("POST");
+                .post("/food/cache/add");
     }
 
     public void listCachedFood(){

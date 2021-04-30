@@ -7,6 +7,10 @@ public class Food {
     private String name;
     private String foodType;
 
+    public Food(){
+
+    }
+
     public Food(String description, String imageUrl, double price, String name, String foodType) {
         this.description = description;
         this.imageUrl = imageUrl;
